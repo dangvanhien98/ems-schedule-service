@@ -1,0 +1,527 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Sample API Todo
+  description: Sample API to illustrate APIs in Todo systems
+
+servers:
+  - url: http://localhost:3000/
+
+security:
+  - BasicAuth: []
+
+paths:
+  /todo:
+    get:
+      tags:
+        - "Todo "
+      description: Get all Todo with filter.  
+      parameters:
+       - $ref: '#/components/parameters/page'
+       - $ref: '#/components/parameters/pageSize' 
+       - $ref: '#/components/parameters/search' 
+       - $ref: '#/components/parameters/status' 
+       - $ref: '#/components/parameters/category'          
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/todo'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+    post:
+      tags:
+      - "Todo "
+      description: Add a new todo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/todo'
+      responses:
+        '201':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400Error'
+        '409':
+          $ref: '#/components/responses/409Error'
+    put:
+      tags:
+        - "Todo "
+      description: Updated information about of todo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/todo'
+      responses:
+        '200':
+          description: Updated todo success
+        '404':
+          $ref: '#/components/responses/404Error'
+        '400':
+          $ref: '#/components/responses/400Error'
+  /todo/{id}:
+    get:
+      tags:
+        - "Todo "
+      description: Get information of Todo by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/todo'
+        '400':
+          description: Bad request. Todo ID not found!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    delete:
+      tags:
+        - "Todo "
+      description: Delete a todo by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      
+      responses:
+        '200':
+          description: Delete todo success
+        '404':
+          $ref: '#/components/responses/404Error'
+        '400':
+          $ref: '#/components/responses/400Error'
+  /todo/category:
+    get:
+      tags:
+        - "Todo Category "
+      description: Get all todo Category with filter.            
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/todoCategory'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+    post:
+      tags:
+      - "Todo Category "
+      description: Add a new todo Category
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/todoCategory'
+      responses:
+        '201':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400Error'
+        '409':
+          $ref: '#/components/responses/409Error'
+    put:
+      tags:
+        - "Todo Category "
+      description: Updated information about of todo Category
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/todoCategory'
+      responses:
+        '200':
+          description: Updated todo Category success
+        '404':
+          $ref: '#/components/responses/404Error'
+        '400':
+          $ref: '#/components/responses/400Error'
+  /todo/category/{id}:
+    delete:
+      tags:
+        - "Todo Category "
+      description: Delete a todo Category by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      
+      responses:
+        '200':
+          description: Delete todo success
+        '404':
+          $ref: '#/components/responses/404Error'
+        '400':
+          $ref: '#/components/responses/400Error'
+  /notification:
+    get:
+      tags:
+        - "Notification "
+      description: Get all Notification with filter.  
+      parameters:
+       - $ref: '#/components/parameters/page' 
+       - $ref: '#/components/parameters/pageSize'
+       - $ref: '#/components/parameters/search' 
+       - $ref: '#/components/parameters/status' 
+       - $ref: '#/components/parameters/category'          
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/notification'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+    post:
+      tags:
+      - "Notification "
+      description: Add a new Notification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/notification'
+      responses:
+        '201':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400Error'
+        '409':
+          $ref: '#/components/responses/409Error'
+    put:
+      tags:
+        - "Notification "
+      description: Updated information about of notification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/notification'
+      responses:
+        '200':
+          description: Updated todo success
+        '404':
+          $ref: '#/components/responses/404Error'
+        '400':
+          $ref: '#/components/responses/400Error'
+  /notification/{id}:
+    delete:
+      tags:
+        - "Notification "
+      description: Delete a notification by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      
+      responses:
+        '200':
+          description: Delete notification success
+        '404':
+          $ref: '#/components/responses/404Error'
+        '400':
+          $ref: '#/components/responses/400Error'
+  /schedule:
+    post:
+      tags:
+        - "Schedule "
+      description: Add a new schedule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schedule'
+      responses:
+        '201':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400Error'
+        '409':
+          $ref: '#/components/responses/409Error'
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+
+  schemas:
+    todo:
+      type: object
+      required:
+        - title
+        - user_id
+        - deadline
+      properties:
+        todoId:
+          type: integer
+        todoName:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+        deadline: {
+          "format": "date-time",
+           type  : string
+        }
+        importance:
+          type: string
+        created: {
+          "format": "date-time",
+           type  : string
+        }
+        modified: {
+          "format": "date-time",
+           type  : string
+        }
+        userId: 
+          type: string
+        todoCategoryId: {
+          "format": "date-time",
+           type  : string
+        }
+    todoCategory:
+      type: object
+      required:
+        - title
+        - user_id
+        - deadline
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        created: {
+          "format": "date-time",
+           type  : string
+        }
+        modified: {
+          "format": "date-time",
+           type  : string
+        }
+        userId:
+          type: integer
+    notification:
+      type: object
+      required:
+        - title
+        - timeNotification
+        - evenId
+      properties:
+        notificationId:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        timeNotification: {
+          "format": "date-time",
+           type  : string
+        }
+        created: {
+          "format": "date-time",
+           type  : string
+        }
+        modified: {
+          "format": "date-time",
+           type  : string
+        }
+        evenId: 
+          type: integer
+    schedule:
+      type: object
+      required:
+        - title
+        - timeStart
+        - dueTime
+        - userIds
+        - createdBy
+        - isDelete
+      properties:
+        title: 
+          type: string
+        status: 
+          type: string
+        description: 
+          type: string
+        timeStart: {
+          "format": "date-time",
+           type: string
+        }
+        dueDate: {
+          "format": "date-time",
+           type: string
+        }
+        importance: 
+          type: string
+        place: 
+          type: string
+        isDelete: 
+          type: boolean
+        created: {
+          "format": "date-time",
+           type: string
+        }
+        modified: {
+          "format": "date-time",
+           type: string
+        }
+        userIds: {
+          type: array,
+          "items": {"type":"integer"},
+          "minItems": 1
+        }
+        equipmentName:
+          type: "array"
+          "items":
+            $ref: '#/components/schemas/equipmentName'
+        scheduleCategoryId: {
+          type: integer
+        }
+        createdBy: {
+          type: integer
+        }
+    equipmentName: 
+      type: object
+      required: 
+        - equipmentId
+      properties: 
+        equipmentId: 
+          type: integer
+        startTime: {
+          "format": "date-time",
+           type: string
+        }
+        dueTime: {
+          "format": "date-time",
+          type: string
+        }
+
+  parameters:
+    pageSize:
+      name: pageSize
+      in: query
+      description: Limit the number of items on a page
+      schema:
+        type: integer
+    page:
+      name: page
+      in: query
+      description: Specifies the page number of the todo to be displayed
+      schema:
+            type: integer
+    search:
+      name: search
+      in: query
+      description: Get todo with search
+      schema:
+            type: string
+    status:
+      name: status
+      in: query
+      description: Get todo by status
+      schema:
+            type: string
+            enum : ['Incomplete','Complete']
+            default : ''
+            # 0 is incomplete
+            # 1 is complete
+    category:
+      name: category
+      in: query
+      description: Get todo by todo_category
+      schema:
+            type: integer
+  responses:
+    400Error:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    404Error:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    405Error:
+      description: Method Not Allowed
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    409Error:
+      description: Resource already exists.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    500Error:
+      description: INTERNAL SERVER ERROR.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message: 
+                type: "string"
+              code :
+                type : integer
+                default : 500     
+                 
